@@ -1,0 +1,5 @@
+{
+  "tests/test_default.py::test_hosts_file[ansible://instance]": true, 
+  "tests/test_default.py::test_tarsnap[ansible://instance]": true, 
+  "tests/test_default.py::test_tarsnapper_pkg[ansible://instance]": true
+}

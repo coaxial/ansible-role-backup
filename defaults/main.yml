@@ -1,2 +1,12 @@
 ---
-# defaults file for backup
+backup__cron_minute: 28
+backup__cron_hour: 3
+backup__cron_dom: '*'
+backup__cron_month: '*'
+backup__cron_dow: '*'
+backup__tarsnap_apt_key: 40B98B68F04DE775
+backup__tarsnap_cachedir: /usr/local/tarsnap-cache
+backup__tarsnap_keyfile: /root/tarsnap.key
+backup__tarsnap_password: 'encrypt me'
+backup__tarsnap_username: 'changeme@example.com'
+backup__tarsnapper_config_file: /etc/tarsnapper.yml

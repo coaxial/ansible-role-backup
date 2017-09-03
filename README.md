@@ -1,38 +1,56 @@
-Role Name
+Backup role
 =========
 
-A brief description of the role goes here.
+This Ansible role will install and configure tarsnap + tarsnapper to make
+encrypted backups at regular intervals.
+
+These backups are stored with tarsnap which uses Amaozn S3.
+
+Laern more about [Tarsnap, online backups for the truly paranoid](https://tarsnap.com).
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+- A tarsnap account with funds on it
+- This role has only been tested on Ubuntu 16.04 (I'll expand it to other
+  platforms if there is any interest, let me know by opening an issue)
+- A tarsnapper config file at `files/tarsnapper.yml` in your playbook ([how to
+  write a
+tarsnapper.yml](https://github.com/miracle2k/tarsnapper#using-a-configuration-file)
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+variable | default value | purpose
+--- | --- | ---
+`backup__tarsnap_cachedir` | `/usr/local/tarsnap-cache` | Sets the directory tarsnap will use to cache backups (cf. [tarsnap.conf man page](https://www.tarsnap.com/man-tarsnap.conf.5.html)
+`backup__tarsnap_keyfile` | `/root/tarsnap.key` | Sets the path where the tarsnap key will be saved
+`backup__tarsnap_apt_key` | `40B98B68F04DE775` | ID for the key used to sign the tarsnap package
+`backup__tarsnap_username` | `changeme@example.com` | Username for tarnsap.com (only required if you want to generate a new tarsnap key)
+`backup__tarsnap_password` | `encrypt me` | Password for tarnsap.com (only required if you want to generate a new tarsnap key)
+`backup__tarsnapper_config_file` | `/etc/tarsnapper.yml` | Sets the path where the tarsnapper jobs configuration will be saved
+`backup__cron_{minute,hour,dom,month,dow}` | (respectively): `28 3 * * *` | Interval at which to run tarsnap for backups
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: backup, x: 42 }
+```yaml
+- hosts: all
+  roles:
+    - role: coaxial.backup
+```
 
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Coaxial <[64b.it](https://64b.it)>
