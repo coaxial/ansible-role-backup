@@ -64,7 +64,7 @@ def test_tarsnapper_log_file(host):
 def test_backup_cronjob(host):
     crontab = host.file('/var/spool/cron/crontabs/root')
     cron_line = (
-            r"28 3 \* \* \* sudo /usr/local/bin/tarsnapper -c "
+            r"28 3 \* \* \* /usr/local/bin/tarsnapper -c "
             "/etc/tarsnapper\.yml make >> /var/log/tarsnapper\.log 2>&1")
 
     assert crontab.contains(cron_line)
