@@ -1,2 +1,12 @@
 ---
-# handlers file for backup
+- name: collect tarsnap key
+  command: "cat {{ backup__tarsnap_keyfile }}"
+  register: tarsnap_key
+
+- name: print tarsnap key
+  debug:
+    msg: "Save the tarsnap key somewhere safe: {{ tarsnap_key.stdout }}"
+
+- name: restore tarsnap cache
+  become: true
+  command: 'tarsnap --fsck'
