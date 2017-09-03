@@ -81,6 +81,15 @@
     owner: root
     group: root
 
+- name: Create tarsnapper log file
+  copy:
+    dest: "{{ backup__tarsnapper_log_file }}"
+    content: ''
+    force: no
+    mode: 0600
+    owner: root
+    group: root
+
 - name: Get path to tarsnapper command
   command: 'which tarsnapper'
   register: tarsnapper_full_path

@@ -1,3 +1,4 @@
+---
 # Global values, valid for all jobs unless overridden:
 deltas: 1d 7d 30d
 delta-names:
@@ -8,7 +9,7 @@ dateformat: "%Y-%m-%d_%H-%M-%S"
 jobs:
   default:
     exec_before: uname -a
-    exec_after: '/var/log/tarsnapper.log >> "$(date +%Y-%m-%d): default job ran"'
+    exec_after: 'sudo echo "$(date +%Y-%m-%d): default job ran" >>{{ backup__tarsnapper_log_file }}'
     delta: default
     sources:
       - /etc/fstab

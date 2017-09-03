@@ -60,6 +60,16 @@ def test_tarsnapper_config_file(host):
     assert conf_file.contains(job)
 
 
+def test_tarsnapper_log_file(host):
+    log_file = host.file('/var/log/tarsnapper.log')
+
+    assert log_file.exists
+    assert log_file.is_file
+    assert log_file.user == 'root'
+    assert log_file.group == 'root'
+    assert log_file.mode == 0o600
+
+
 def test_backup_cronjob(host):
     crontab = host.file('/var/spool/cron/crontabs/root')
     cron_line = (
