@@ -111,7 +111,7 @@
 - name: Add backup task to cron
   cron:
     name: Backup to tarsnap
-    job: "sudo {{ tarsnapper_full_path.stdout }} -c {{ backup__tarsnapper_config_file }} make >> /var/log/tarsnapper.log 2>&1"
+    job: "{{ tarsnapper_full_path.stdout }} -c {{ backup__tarsnapper_config_file }} make >> /var/log/tarsnapper.log 2>&1"
     minute: "{{ backup__cron_minute }}"
     hour: "{{ backup__cron_hour }}"
     dom: "{{ backup__cron_dom }}"
