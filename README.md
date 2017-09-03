@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/coaxial/ansible-role-backup.svg?branch=master)](https://travis-ci.org/coaxial/ansible-role-backup)
+
 Backup role
 =========
 
