@@ -1,0 +1,10 @@
+sudo: false
+language: python
+python: "2.7"
+services:
+  - docker
+install:
+  - pip install ansible
+  - pip install docker-py
+  - pip install molecule --pre
+script: molecule test
