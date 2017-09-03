@@ -53,12 +53,13 @@
     - print tarsnap key
     - restore tarsnap cache
   register: tarsnap_keygen
-  when: not local_key.stat.exists and backup__tarsnap_username != 'changeme@example.com'
+  # the tarsnap key file in the test environment isn't a valid one
+  when: not local_key.stat.exists and backup__env != 'test'
 
 - name: Copy supplied tarsnap key
   copy:
     src: "files/{{ ansible_hostname }}.key"
-    dest: /root/tarsnap.key
+    dest: "{{ backup__tarsnap_keyfile }}"
   when: local_key.stat.exists
 
 - name: Set permissions on tarsnap key
@@ -67,6 +68,13 @@
     mode: 0600
     owner: root
     group: root
+
+- name: Rebuild tarsnap cache
+  become: true
+  command: 'tarsnap --fsck'
+  when: backup__env != 'test' # the tarsnap key file in the test environment
+  # isn't a valid one
+  changed_when: false
 
 - name: Install tarsnapper
   pip:
