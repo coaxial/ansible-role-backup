@@ -11,8 +11,8 @@ galaxy_info:
         - xenial
 
   galaxy_tags:
-    backup
-    tarsnap
-    tarsnapper
+    - backup
+    - tarsnap
+    - tarsnapper
 
 dependencies: []
