@@ -30,6 +30,19 @@ variable | default value | purpose
 `backup__tarsnapper_log_file` | `/var/log/tarsnapper.log` | Sets the path to where the cronjob logs will be written
 `backup__cron_{minute,hour,dom,month,dow}` | respectively: `28`, `3`, `*`, `*`, `*` | Interval at which to run tarsnap for backups
 
+Notes
+-----
+
+If there is no tarsnap key file found at `files/{{ ansible_hostname }}.yml`, a
+new Tarsnap key will be generated using the `backup__tarsnap_username` and
+`backup__tarsnap_password` variable, and a new machine will be registered as
+`{{ ansible_host }}`.
+
+If there is a tarnsap key at `files/{{ ansible_hostname }}.yml`, then that key
+will be used instead and no new key generation or machine registration will
+occur.
+
+
 Dependencies
 ------------
 
