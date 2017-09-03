@@ -41,23 +41,16 @@ def test_tarsnapper_presence(host):
 
 def test_tarsnapper_config_file(host):
     conf_file = host.file('/etc/tarsnapper.yml')
-    custom_deltas = r"  default: '1d 7d 30d 360d'"
-    job = (
-            "  default:\n"
-            "    sources:\n"
-            "      - /etc/fstab\n"
-            "    exec_before: uname -a\n"
-            "    exec_after: '/var/log/tarsnapper.log >> \"`date +%Y-%m-%d`"
-            ": default job ran\"'\n"
-            "    delta: default")
+    sha256 = (
+            '5b83776179207ea297b8941b335e9a44498865fde2c3e8f64545'
+            '31e31a62a8f0')
 
     assert conf_file.exists
     assert conf_file.is_file
     assert conf_file.user == 'root'
     assert conf_file.group == 'root'
     assert conf_file.mode == 0o600
-    assert conf_file.contains(custom_deltas)
-    assert conf_file.contains(job)
+    assert conf_file.sha256sum == sha256
 
 
 def test_tarsnapper_log_file(host):

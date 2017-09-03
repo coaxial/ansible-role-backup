@@ -14,9 +14,7 @@ Requirements
 - A tarsnap account with funds on it
 - This role has only been tested on Ubuntu 16.04 (I'll expand it to other
   platforms if there is any interest, let me know by opening an issue)
-- A tarsnapper config file at `files/tarsnapper.yml` in your playbook ([how to
-  write a
-tarsnapper.yml](https://github.com/miracle2k/tarsnapper#using-a-configuration-file)
+- A tarsnapper config file at `files/tarsnapper.yml` in your playbook ([how to write a tarsnapper.yml](https://github.com/miracle2k/tarsnapper#using-a-configuration-file)
 
 Role Variables
 --------------
