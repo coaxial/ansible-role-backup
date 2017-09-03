@@ -29,7 +29,7 @@ variable | default value | purpose
 `backup__tarsnap_username` | `changeme@example.com` | Username for tarnsap.com (only required if you want to generate a new tarsnap key)
 `backup__tarsnap_password` | `encrypt me` | Password for tarnsap.com (only required if you want to generate a new tarsnap key)
 `backup__tarsnapper_config_file` | `/etc/tarsnapper.yml` | Sets the path where the tarsnapper jobs configuration will be saved
-`backup__cron_{minute,hour,dom,month,dow}` | (respectively): `28 3 * * *` | Interval at which to run tarsnap for backups
+`backup__cron_{minute,hour,dom,month,dow}` | respectively: `28`, `3`, `*`, `*`, `*` | Interval at which to run tarsnap for backups
 
 Dependencies
 ------------
