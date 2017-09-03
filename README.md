@@ -16,7 +16,7 @@ Requirements
 - A tarsnap account with funds on it
 - This role has only been tested on Ubuntu 16.04 (I'll expand it to other
   platforms if there is any interest, let me know by opening an issue)
-- A tarsnapper config file at `files/tarsnapper.yml` in your playbook ([how to write a tarsnapper.yml](https://github.com/miracle2k/tarsnapper#using-a-configuration-file)
+- A tarsnapper config file at `templates/tarsnapper.yml.j2` in your playbook ([how to write a tarsnapper.yml](https://github.com/miracle2k/tarsnapper#using-a-configuration-file)
 
 Role Variables
 --------------
@@ -28,7 +28,7 @@ variable | default value | purpose
 `backup__tarsnap_apt_key` | `40B98B68F04DE775` | ID for the key used to sign the tarsnap package
 `backup__tarsnap_username` | `changeme@example.com` | Username for tarnsap.com (only required if you want to generate a new tarsnap key)
 `backup__tarsnap_password` | `encrypt me` | Password for tarnsap.com (only required if you want to generate a new tarsnap key)
-`backup__tarsnapper_config_file` | `/etc/tarsnapper.yml` | Sets the path where the tarsnapper jobs configuration will be saved
+`backup__tarsnapper_config_file` | `/etc/tarsnapper.yml` | Sets the path where the tarsnapper jobs configuration will be saved on the target host
 `backup__tarsnapper_log_file` | `/var/log/tarsnapper.log` | Sets the path to where the cronjob logs will be written
 `backup__cron_{minute,hour,dom,month,dow}` | respectively: `28`, `3`, `*`, `*`, `*` | Interval at which to run tarsnap for backups
 

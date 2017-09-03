@@ -74,8 +74,8 @@
     state: present
 
 - name: Copy tarsnapper config file
-  copy:
-    src: files/tarsnapper.yml
+  template:
+    src: templates/tarsnapper.yml.j2
     dest: "{{ backup__tarsnapper_config_file }}"
     mode: 0600
     owner: root

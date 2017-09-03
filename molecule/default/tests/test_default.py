@@ -41,9 +41,7 @@ def test_tarsnapper_presence(host):
 
 def test_tarsnapper_config_file(host):
     conf_file = host.file('/etc/tarsnapper.yml')
-    sha256 = (
-            '5b83776179207ea297b8941b335e9a44498865fde2c3e8f64545'
-            '31e31a62a8f0')
+    sha256 = '1c3169fdbde851cf872f8dbe87ae34df1b5734108abb5b589719bdead98afbba'
 
     assert conf_file.exists
     assert conf_file.is_file
