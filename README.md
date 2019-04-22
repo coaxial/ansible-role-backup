@@ -24,6 +24,7 @@ Role Variables
 
 variable | default value | purpose
 --- | --- | ---
+`backup__rebuild_cache` | `false` | Will skip `tarsnap --fsck`
 `backup__tarsnap_cachedir` | `/usr/local/tarsnap-cache` | Sets the directory tarsnap will use to cache backups (cf. [tarsnap.conf man page](https://www.tarsnap.com/man-tarsnap.conf.5.html)
 `backup__tarsnap_keyfile` | `/root/tarsnap.key` | Sets the path where the tarsnap key will be saved
 `backup__tarsnap_apt_key` | `40B98B68F04DE775` | ID for the key used to sign the tarsnap package
