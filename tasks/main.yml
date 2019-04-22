@@ -4,7 +4,8 @@
     name: python-pip
     state: present
 
-- name: Add tarsnap apt key
+- name: >
+      Add tarsnap apt key (if task fails, see https://www.tarsnap.com/pkg-deb.html for latest key and override `backup__tarsnap_apt_key`)
   apt_key:
     url: https://pkg.tarsnap.com/tarsnap-deb-packaging-key.asc
     state: present
@@ -36,8 +37,8 @@
     state: present
 
 - name: Check for supplied tarsnap key
-  local_action:
-    module: stat
+  delegate_to: localhost
+  stat:
     path: "files/{{ ansible_hostname }}.key"
   register: local_key
   ignore_errors: true
@@ -72,7 +73,7 @@
 - name: Rebuild tarsnap cache
   become: true
   command: 'tarsnap --fsck'
-  when: backup__env != 'test' # the tarsnap key file in the test environment
+  when: backup__env != 'test'  # the tarsnap key file in the test environment
   # isn't a valid one
   changed_when: false
 

@@ -45,6 +45,12 @@ If there is a tarsnap key at `files/{{ ansible_hostname }}.yml`, then that key
 will be used instead and no new key generation or machine registration will
 occur.
 
+If the `Add tarsnap apt key` task fails, it means the package's key has changed
+but I haven't updated the role yet. Check what the current key is at
+https://www.tarsnap.com/pkg-deb.html, override its value with the
+`backup__tarsnap_apt_key` variable, and open an issue so I can update the role
+with the new key.
+
 
 Dependencies
 ------------
