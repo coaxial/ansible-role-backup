@@ -73,8 +73,9 @@
 - name: Rebuild tarsnap cache
   become: true
   command: 'tarsnap --fsck'
-  when: backup__env != 'test'  # the tarsnap key file in the test environment
-  # isn't a valid one
+  # the tarsnap key file in test is not a valid one
+  # rebuilding the cache is long so it is optional
+  when: backup__env != 'test' or backup__rebuild_cache
   changed_when: false
 
 - name: Install tarsnapper
