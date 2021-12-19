@@ -12,4 +12,7 @@ backup__tarsnap_keyfile: /root/tarsnap.key
 backup__tarsnap_password: 'encrypt me'
 backup__tarsnap_username: 'changeme@example.com'
 backup__tarsnapper_config_file: /etc/tarsnapper.yml
+backup__tarsnap_local_key: ''
 backup__tarsnapper_log_file: /var/log/tarsnapper.log
+backup__tarsnapper_enabled: true
+backup__install_pip: true

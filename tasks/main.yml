@@ -3,6 +3,7 @@
   package:
     name: python-pip
     state: present
+  when: backup__install_pip
 
 - name: >
       Add tarsnap apt key (if task fails, see https://www.tarsnap.com/pkg-deb.html for latest key and override `backup__tarsnap_apt_key`)
@@ -35,13 +36,7 @@
   pip:
     name: pexpect
     state: present
-
-- name: Check for supplied tarsnap key
-  delegate_to: localhost
-  stat:
-    path: "files/{{ ansible_hostname }}.key"
-  register: local_key
-  ignore_errors: true
+  when: not backup__tarsnap_local_key
 
 - name: Generate tarsnap key and register host
   expect:
@@ -55,13 +50,15 @@
     - restore tarsnap cache
   register: tarsnap_keygen
   # the tarsnap key file in the test environment isn't a valid one
-  when: not local_key.stat.exists and backup__env != 'test'
+  when: not backup__tarsnap_local_key and backup__env != 'test'
+  tags: tarsnap-key
 
 - name: Copy supplied tarsnap key
   copy:
-    src: "files/{{ ansible_hostname }}.key"
+    src: "{{ backup__tarsnap_local_key }}"
     dest: "{{ backup__tarsnap_keyfile }}"
-  when: local_key.stat.exists
+  when: backup__tarsnap_local_key
+  tags: tarsnap-key
 
 - name: Set permissions on tarsnap key
   file:
@@ -69,6 +66,7 @@
     mode: 0600
     owner: root
     group: root
+  tags: tarsnap-key
 
 - name: Rebuild tarsnap cache
   become: true
@@ -81,6 +79,7 @@
   pip:
     name: tarsnapper
     state: present
+  when: backup__tarsnapper_enabled
 
 - name: Copy tarsnapper config file
   template:
@@ -89,6 +88,7 @@
     mode: 0600
     owner: root
     group: root
+  when: backup__tarsnapper_enabled
 
 - name: Create tarsnapper log file
   copy:
@@ -98,18 +98,20 @@
     mode: 0600
     owner: root
     group: root
+  when: backup__tarsnapper_enabled
 
 - name: Get path to tarsnapper command
   command: 'which tarsnapper'
   register: tarsnapper_full_path
   changed_when: false
+  when: backup__tarsnapper_enabled
 
 - name: Install cron
   package:
     name: cron
     state: present
 
-- name: Add backup task to cron
+- name: Add tarsnapper backup task to cron
   cron:
     name: Backup to tarsnap
     job: "{{ tarsnapper_full_path.stdout }} -c {{ backup__tarsnapper_config_file }} make >> /var/log/tarsnapper.log 2>&1"
@@ -118,3 +120,4 @@
     dom: "{{ backup__cron_dom }}"
     month: "{{ backup__cron_month }}"
     dow: "{{ backup__cron_dow }}"
+  when: backup__tarsnapper_enabled

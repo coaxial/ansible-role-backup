@@ -30,19 +30,22 @@ variable | default value | purpose
 `backup__tarsnap_apt_key` | `40B98B68F04DE775` | ID for the key used to sign the tarsnap package
 `backup__tarsnap_username` | `changeme@example.com` | Username for tarsnap.com (only required if you want to generate a new tarsnap key)
 `backup__tarsnap_password` | `encrypt me` | Password for tarsnap.com (only required if you want to generate a new tarsnap key)
+`backup__tarsnap_local_key` | `` | Path to already generated tarsnap key
 `backup__tarsnapper_config_file` | `/etc/tarsnapper.yml` | Sets the path where the tarsnapper jobs configuration will be saved on the target host
 `backup__tarsnapper_log_file` | `/var/log/tarsnapper.log` | Sets the path to where the cronjob logs will be written
+`backup__tarsnapper_enabled` | `true` | Enables tarsnapper installation
 `backup__cron_{minute,hour,dom,month,dow}` | respectively: `28`, `3`, `*`, `*`, `*` | Interval at which to run tarsnap for backups
+`backup__install_pip` | `true` | Enables python-pip installation
 
 Notes
 -----
 
-If there is no tarsnap key file found at `files/{{ ansible_hostname }}.yml`, a
+If there is no tarsnap key specified with `backup__tarsnap_local_key` , a
 new Tarsnap key will be generated using the `backup__tarsnap_username` and
 `backup__tarsnap_password` variables, and a new machine will be registered as
 `{{ ansible_host }}`.
 
-If there is a tarsnap key at `files/{{ ansible_hostname }}.yml`, then that key
+If tarsnap key is specified with `backup__tarsnap_local_key`, then that key
 will be used instead and no new key generation or machine registration will
 occur.
 
