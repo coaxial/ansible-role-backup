@@ -1,15 +1,15 @@
 ---
-backup__cron_dom: '*'
-backup__cron_dow: '*'
+backup__cron_dom: "*"
+backup__cron_dow: "*"
 backup__cron_hour: 3
 backup__cron_minute: 28
-backup__cron_month: '*'
-backup__env: ''  # only used for skipping tasks during tests
+backup__cron_month: "*"
+backup__env: "" # only used for skipping tasks during tests
 backup__rebuild_cache: false
-backup__tarsnap_apt_key: 6D97F5A4CA38CF33
+backup__tarsnap_apt_key: C8AC97032A76382306D2A315B364F774EAC3C4DF
 backup__tarsnap_cachedir: /usr/local/tarsnap-cache
 backup__tarsnap_keyfile: /root/tarsnap.key
-backup__tarsnap_password: 'encrypt me'
-backup__tarsnap_username: 'changeme@example.com'
+backup__tarsnap_password: "encrypt me"
+backup__tarsnap_username: "changeme@example.com"
 backup__tarsnapper_config_file: /etc/tarsnapper.yml
 backup__tarsnapper_log_file: /var/log/tarsnapper.log
