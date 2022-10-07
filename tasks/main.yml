@@ -1,11 +1,39 @@
 ---
-- name: Install pip
+- name: Gather facts
+  setup:
+
+- name: Install pip (<20.04)
   package:
     name: python-pip
     state: present
+  when: ansible_distribution_major_version | int < 20
+
+- name: Install python2 (20.04+)
+  package:
+    name: python2-minimal
+    state: present
+  when: ansible_distribution_major_version | int >= 20
+
+- name: Add apt tools (20.04+)
+  package:
+    name: software-properties-common
+    state: present
+  when: ansible_distribution_major_version | int >= 20
+
+- name: Enable universe repo (20.04+)
+  command: add-apt-repository universe
+  when: ansible_distribution_major_version | int >= 20
+  changed_when: false
+
+- name: Install pip2 (20.04+)
+  ansible.builtin.script: get-pip.py
+  args:
+    executable: python2
+  when: ansible_distribution_major_version | int >= 20
+  changed_when: false
 
 - name: >
-      Add tarsnap apt key (if task fails, see https://www.tarsnap.com/pkg-deb.html for latest key and override `backup__tarsnap_apt_key`)
+    Add tarsnap apt key (if task fails, see https://www.tarsnap.com/pkg-deb.html for latest key and override `backup__tarsnap_apt_key`)
   apt_key:
     url: https://pkg.tarsnap.com/tarsnap-deb-packaging-key.asc
     state: present
@@ -32,9 +60,10 @@
 
 - name: Install pexpect module globally
   # required by the expect module
-  pip:
+  ansible.builtin.pip:
     name: pexpect
     state: present
+    executable: pip2
 
 - name: Check for supplied tarsnap key
   delegate_to: localhost
@@ -72,18 +101,19 @@
 
 - name: Rebuild tarsnap cache
   become: true
-  command: 'tarsnap --fsck'
+  command: "tarsnap --fsck"
   # rebuilding the cache is long so it is optional
   when: backup__rebuild_cache
   changed_when: false
 
 - name: Install tarsnapper
-  pip:
+  ansible.builtin.pip:
     name: tarsnapper
     state: present
+    executable: pip2
 
 - name: Copy tarsnapper config file
-  template:
+  ansible.builtin.template:
     src: templates/tarsnapper.yml.j2
     dest: "{{ backup__tarsnapper_config_file }}"
     mode: 0600
@@ -93,14 +123,14 @@
 - name: Create tarsnapper log file
   copy:
     dest: "{{ backup__tarsnapper_log_file }}"
-    content: ''
+    content: ""
     force: no
     mode: 0600
     owner: root
     group: root
 
 - name: Get path to tarsnapper command
-  command: 'which tarsnapper'
+  command: "which tarsnapper"
   register: tarsnapper_full_path
   changed_when: false
 
